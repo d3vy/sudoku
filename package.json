@@ -1,0 +1,11 @@
+{
+  "name": "sudoku",
+  "version": "1.0.0",
+  "main": "index.html",
+  "repository": "git@github.com:subbysnake/Sudoku.git",
+  "author": "Szabolcs Surányi <szabolcs.suranyi@shadesoft.hu>",
+  "license": "MIT",
+  "dependencies": {
+    "p5": "^0.7.3"
+  }
+}
