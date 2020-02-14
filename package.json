@@ -2,7 +2,7 @@
   "name": "sudoku",
   "version": "1.0.0",
   "main": "index.html",
-  "repository": "git@github.com:subbysnake/Sudoku.git",
+  "repository": "git@github.com:d3vy/Sudoku.git",
   "author": "Szabolcs Surányi <szabolcs.suranyi@shadesoft.hu>",
   "license": "MIT",
   "dependencies": {
@@ -12,6 +12,8 @@
     "gh-pages": "^2.2.0"
   },
   "homepage": "https://d3vy.github.io/Sudoku",
-  "predeploy": "yarn",
-  "deploy": "gh-pages -d build"
+  "scripts": {
+    "predeploy": "yarn",
+    "deploy": "gh-pages -d build"
+  }
 }
