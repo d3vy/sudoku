@@ -12,6 +12,6 @@
     "gh-pages": "^2.2.0"
   },
   "homepage": "https://d3vy.github.io/Sudoku",
-  "predeploy": "yarn run build",
+  "predeploy": "yarn",
   "deploy": "gh-pages -d build"
 }
