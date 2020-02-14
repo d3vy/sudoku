@@ -14,6 +14,6 @@
   "homepage": "https://d3vy.github.io/Sudoku",
   "scripts": {
     "predeploy": "yarn",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d ."
   }
 }
