@@ -9,40 +9,22 @@ class Sudoku {
             }
         }
 
-        this.init(false);
+        this.generate(this.grid);
     }
 
-    init(fillZeroes = true) {
-        this.valid = null;
-        this.solving = false;
-
-        if(fillZeroes) {
-            for(let row = 0; row < 9; row++) {
-                for(let col = 0; col < 9; col++) {
-                    this.grid[row][col] = 0;
-                }
-            }
-        }
-
-        for(let i = 0; i < 35; i++) {
-            let row, col, value;
-            while((value = this.grid[row = Math.floor(Math.random() * 9)][col = Math.floor(Math.random() * 9)]) !== 0);
-            while(!this.possible(row, col, value = Math.floor(Math.random() * 9) + 1));
-            this.grid[row][col] = value;
-        }
-    }
-
-    solve() {
+    generate(grid) {
         for(let row = 0; row < 9; row++) {
             for(let col = 0; col < 9; col++) {
-                if(this.grid[row][col] === 0) {
-                    for(let value = 1; value <= 9; value++) {
-                        if(this.possible(row, col, value)) {
-                            this.grid[row][col] = value;
-                            if(this.solve()) {
+                if(grid[row][col] === 0) {
+                    let values = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+                    for(let i = 0; i < 9; i++) {
+                        let value = values[i];
+                        if(this.possible(grid, row, col, value)) {
+                            grid[row][col] = value;
+                            if(this.generate(grid)) {
                                 return true;
                             }
-                            this.grid[row][col] = 0;
+                            grid[row][col] = 0;
                         }
                     }
 
@@ -54,9 +36,60 @@ class Sudoku {
         return true;
     }
 
-    possible(row, col, value) {
+    solve(grid, solutions = 0) {
+        for(let row = 0; row < 9; row++) {
+            for(let col = 0; col < 9; col++) {
+                if(grid[row][col] === 0) {
+                    for(let value = 1; value <= 9; value++) {
+                        if(this.possible(grid, row, col, value)) {
+                            grid[row][col] = value;
+                            if(this.countClearCells(grid) === 0) {
+                                solutions++;
+                                break;
+                            } else if(this.solve(grid, solutions)) {
+                                return solutions;
+                            }
+                            grid[row][col] = 0;
+                        }
+                    }
+
+                    return solutions;
+                }
+            }
+        }
+
+        return solutions;
+    }
+
+    clearCells(grid, attempts = 5) {
+        let row;
+        let col;
+
+        while(attempts > 0) {
+            console.log(attempts);
+
+            while(grid[row = Math.floor(random(9))][col = Math.floor(random(9))] === 0);
+            let value = grid[row][col];
+            grid[row][col] = 0;
+
+            let tmpGrid = [];
+            for(let i = 0; i < 9; i++) {
+                tmpGrid[i] = [];
+                for(let j = 0; j < 9; j++) {
+                    tmpGrid[i][j] = grid[i][j];
+                }
+            }
+
+            if(this.solve(tmpGrid) !== 1) {
+                grid[row][col] = value;
+                attempts--;
+            }
+        }
+    }
+
+    possible(grid, row, col, value) {
         for(let i = 0; i < 9; i++) {
-            if(this.grid[row][i] === value || this.grid[i][col] === value) {
+            if(grid[row][i] === value || grid[i][col] === value) {
                 return false;
             }
         }
@@ -65,12 +98,25 @@ class Sudoku {
         let y = Math.floor(row / 3) * 3;
         for(let i = 0; i < 3; i++) {
             for(let j = 0; j < 3; j++) {
-                if(this.grid[y + i][x + j] === value) {
+                if(grid[y + i][x + j] === value) {
                     return false;
                 }
             }
         }
 
         return true;
+    }
+
+    countClearCells(grid) {
+        let num = 0;
+        for(let row = 0; row < 9; row++) {
+            for(let col = 0; col < 9; col++) {
+                if(grid[row][col] === 0) {
+                    num++;
+                }
+            }
+        }
+
+        return num;
     }
 }
