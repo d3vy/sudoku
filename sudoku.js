@@ -1,6 +1,7 @@
 class Sudoku {
     constructor() {
         this.grid = [];
+        this.solutions;
 
         for(let row = 0; row < 9; row++) {
             this.grid[row] = [];
@@ -10,6 +11,7 @@ class Sudoku {
         }
 
         this.generate(this.grid);
+        this.clearCells(this.grid);
     }
 
     generate(grid) {
@@ -36,7 +38,7 @@ class Sudoku {
         return true;
     }
 
-    solve(grid, solutions = 0) {
+    solve(grid) {
         for(let row = 0; row < 9; row++) {
             for(let col = 0; col < 9; col++) {
                 if(grid[row][col] === 0) {
@@ -44,21 +46,21 @@ class Sudoku {
                         if(this.possible(grid, row, col, value)) {
                             grid[row][col] = value;
                             if(this.countClearCells(grid) === 0) {
-                                solutions++;
+                                this.solutions++;
                                 break;
-                            } else if(this.solve(grid, solutions)) {
-                                return solutions;
+                            } else if(this.solve(grid)) {
+                                return true;
                             }
                             grid[row][col] = 0;
                         }
                     }
 
-                    return solutions;
+                    return false;
                 }
             }
         }
 
-        return solutions;
+        return true;
     }
 
     clearCells(grid, attempts = 5) {
@@ -80,7 +82,10 @@ class Sudoku {
                 }
             }
 
-            if(this.solve(tmpGrid) !== 1) {
+            this.solutions = 0;
+            this.solve(tmpGrid);
+
+            if(this.solutions !== 1) {
                 grid[row][col] = value;
                 attempts--;
             }

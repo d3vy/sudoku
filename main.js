@@ -2,7 +2,7 @@ let sudoku;
 
 function setup() {
     createCanvas(310, 290);
-    frameRate(5);
+    noLoop();
 
     sudoku = new Sudoku();
 }
@@ -25,6 +25,4 @@ function draw() {
     line(0, 190, width, 190);
 
     stroke(192);
-
-    //sudoku.clearCells(sudoku.grid);
 }
