@@ -68,8 +68,6 @@ class Sudoku {
         let col;
 
         while(attempts > 0) {
-            console.log(attempts);
-
             while(grid[row = Math.floor(random(9))][col = Math.floor(random(9))] === 0);
             let value = grid[row][col];
             grid[row][col] = 0;
