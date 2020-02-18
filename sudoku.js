@@ -19,8 +19,7 @@ class Sudoku {
             for(let col = 0; col < 9; col++) {
                 if(grid[row][col] === 0) {
                     let values = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-                    for(let i = 0; i < 9; i++) {
-                        let value = values[i];
+                    for(let value of values) {
                         if(this.possible(grid, row, col, value)) {
                             grid[row][col] = value;
                             if(this.generate(grid)) {
