@@ -12,17 +12,20 @@ function setup() {
 function draw() {
     background(32);
     textSize(size / 2);
+    //textFont('Shadows Into Light');
+    textFont('Lemonada');
 
-    for(let row = 0; row < 9; row++) {
-        for(let col = 0; col < 9; col++) {
-            stroke(92);
-            noFill();
-            square(col * size, row * size, size);
+    for(let i = 0; i < 81; i++) {
+        let row = Math.floor(i / 9);
+        let col = i % 9;
 
-            noStroke();
-            fill(255);
-            text(sudoku.grid[row][col] ? sudoku.grid[row][col] : '', col * size + size / 2.5, row * size + size / 1.5);
-        }
+        stroke(92);
+        noFill();
+        square(col * size, row * size, size);
+
+        noStroke();
+        fill(255);
+        text(sudoku.grid.getCell(row, col) ? sudoku.grid.getCell(row, col) : '', col * size + size / 3, row * size + size / 1.5);
     }
 
     stroke(255);
