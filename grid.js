@@ -9,21 +9,21 @@ class Grid {
     }
 
     setCell(row, col, value) {
-        this.cells[row * 9 + col] = value;
+        this.cells[row * 9 + col] = new Cell(value);
         return this;
     }
 
     generate() {
         for(let i = 0; i < 81; i++) {
-            if(this.cells[i] === 0) {
+            if(this.cells[i].value === 0) {
                 let values = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]);
                 for(let value of values) {
                     if(this.possible(Math.floor(i / 9), i % 9, value)) {
-                        this.cells[i] = value;
+                        this.cells[i].value = value;
                         if(this.generate()) {
                             return true;
                         }
-                        this.cells[i] = 0;
+                        this.cells[i].value = 0;
                     }
                 }
 
@@ -36,17 +36,17 @@ class Grid {
 
     solve() {
         for(let i = 0; i < 81; i++) {
-            if(this.cells[i] === 0) {
+            if(this.cells[i].value === 0) {
                 for(let value = 1; value <= 9; value++) {
                     if(this.possible(Math.floor(i / 9), i % 9, value)) {
-                        this.cells[i] = value;
+                        this.cells[i].value = value;
                         if(this.countEmptyCells() === 0) {
                             this.solutions++;
                             break;
                         } else if(this.solve()) {
                             return true;
                         }
-                        this.cells[i] = 0;
+                        this.cells[i].value = 0;
                     }
                 }
 
@@ -59,7 +59,7 @@ class Grid {
 
     possible(row, col, value) {
         for(let i = 0; i < 9; i++) {
-            if(this.getCell(row, i) === value || this.getCell(i, col) === value) {
+            if(this.getCell(row, i).value === value || this.getCell(i, col).value === value) {
                 return false;
             }
         }
@@ -68,7 +68,7 @@ class Grid {
         let y = Math.floor(row / 3) * 3;
         for(let i = 0; i < 3; i++) {
             for(let j = 0; j < 3; j++) {
-                if(this.getCell(y + i, x + j) === value) {
+                if(this.getCell(y + i, x + j).value === value) {
                     return false;
                 }
             }
@@ -80,7 +80,7 @@ class Grid {
     countEmptyCells() {
         let num = 0;
         for(let i = 0; i < 81; i++) {
-            if(this.cells[i] === 0) {
+            if(this.cells[i].value === 0) {
                 num++;
             }
         }
@@ -91,7 +91,7 @@ class Grid {
     clone() {
         let clone = new Grid();
         for(let i = 0; i < 81; i++) {
-            clone.cells[i] = this.cells[i];
+            clone.cells[i] = new Cell(this.cells[i].value, this.cells[i].stored);
         }
 
         return clone;
@@ -101,7 +101,7 @@ class Grid {
         let grid = new Grid();
 
         for(let i = 0; i < 81; i++) {
-            grid.cells[i] = 0;
+            grid.cells[i] = new Cell(0);
         }
 
         return grid;
