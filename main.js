@@ -43,7 +43,7 @@ function draw() {
 }
 
 function mousePressed() {
-    if(mouseX < 0 || mouseY < 0) {
+    if(mouseX < 0 - size || mouseX > width + size || mouseY < 0 - size || mouseY > width + size) {
         return;
     }
 
@@ -52,7 +52,7 @@ function mousePressed() {
         let col = i % 9;
 
         let cell = sudoku.grid.getCell(Math.floor(i / 9), i % 9);
-        
+
         if(mouseX >= col * size && mouseX < col * size + size
             && mouseY >= row * size && mouseY < row * size + size) {
             if(cell.focused) {
