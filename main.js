@@ -43,14 +43,25 @@ function draw() {
 }
 
 function mousePressed() {
+    if(mouseX < 0 || mouseY < 0) {
+        return;
+    }
+
     for(let i = 0; i < 81; i++) {
         let row = Math.floor(i / 9);
         let col = i % 9;
 
         let cell = sudoku.grid.getCell(Math.floor(i / 9), i % 9);
-        cell.focused = !cell.stored
-            && mouseX >= col * size && mouseX < col * size + size
-            && mouseY >= row * size && mouseY < row * size + size;
+        
+        if(mouseX >= col * size && mouseX < col * size + size
+            && mouseY >= row * size && mouseY < row * size + size) {
+            if(cell.focused) {
+                cell.value = (cell.value + 1) % 10;
+            }
+            cell.focused = !cell.stored;
+        } else {
+            cell.focused = false;
+        }
     }
 }
 
